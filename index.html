@@ -22,12 +22,12 @@
                 <h1>
                     Tutorial de Node Js
                 </h1>
-                <h2>
-                Cómo usar nodejs para consumir servicios web
-                </h2>
                 <h3>
-                  <p>Elaborado por:<b></b> Gabriel Alvarez Arzate A01642991 <br> Miguel Angel Barrientos Ballesteros A01637150</p>
+                Cómo usar nodejs para consumir servicios web
                 </h3>
+                <h6>
+                  <p>Elaborado por:<br> Gabriel Alvarez Arzate A01642991 <br> Miguel Angel Barrientos Ballesteros A01637150</p>
+                </h6>
             </div>
         </div>
     </div>
@@ -39,31 +39,65 @@
         </h3>
     </div>
     <h4>
-        ¿Qué es Node js?
+        ¿Qué es Node.js?
     </h4>
+    <p>
+        Node.js es un entorno de ejecución de JavaScript que permite ejecutar código JavaScript en el lado del servidor. 
+        Utiliza el motor V8 de Google Chrome para ejecutar código JavaScript de manera rápida y eficiente. 
+        Es conocido por su capacidad para manejar conexiones de manera asíncrona, lo que lo hace especialmente adecuado para aplicaciones web en tiempo real. Con Node.js, los desarrolladores pueden crear servidores web, aplicaciones de red, herramientas de línea de 
+        comandos y mucho más, todo utilizando JavaScript tanto en el lado del cliente como en el servidor.
+    </p>
     <h4>
-        ¿Qué es una API?
+      ¿Qué es y para qué sirve una API?
     </h4>
-    
-    <h4>
-        ¿Para qué sirve una API?
-    </h4>
+    <p>
+      Las siglas API significan Interfaz de "Programación de Aplicaciones" o en inglés "Application Programming Interface"  
+      es un conjunto de herramientas que te permiten hacer que dos programas de software se comuniquen entre sí, facilitando
+      la integración y el intercambio de datos entre las aplicaciones deseadas, permitiendo que puedas acceder a ciertas características
+      o servicios de una aplicación sin necesidad de entender a detalle todo lo que está detrás de la aplicación.  
+    </p>
+
     <h4>
         ¿Qué es una solictud Get?
     </h4>
+    <p>
+        Una solicitud GET es una forma de solicitar datos de un servidor web utilizando el protocolo HTTP.
+        es uno de los métodos de solicitud HTTP utilizados para solicitar datos de un servidor web. Cuando un navegador web o cualquier otro cliente web desea recuperar datos de un servidor, envía una solicitud GET al servidor. Esta solicitud incluye una URL que especifica la ubicación del recurso que se está solicitando. Por ejemplo, al escribir una URL en la barra de direcciones de un navegador y presionar Enter, el navegador envía una solicitud GET al servidor para obtener la página web correspondiente.
+    </p>
+    <p>
+        Una solicitud GET es idempotente, lo que significa que no debe tener efectos secundarios en el servidor. 
+        Esto implica que la solicitud GET no debe cambiar el estado del servidor o de los datos en el servidor. 
+        Por lo tanto, las solicitudes GET son comúnmente utilizadas para recuperar información de manera segura 
+        sin modificar los datos del servidor.
+    </p>
+    
     <h4>
         ¿Qué es una solictud POST?
     </h4>
-    <p>ll</p>
+    <p>
+      Una solicitud POST es un manera de enviar datos al servidor para procesarlos, se utiliza para datos al servidor
+      como enviar formularios, datos o crear recursos.
+      Esta solicitud lleva datos en el cuerpo del mensaje, lo que permite enviar información más compleja y extensa.
+      Los datos enviados con una solicitud POST no están directamente visibles en la URL. En lugar de eso, se envían 
+      en el cuerpo de la solicitud, lo que proporciona cierta privacidad y seguridad, especialmente al manejar información 
+      sensible como contraseñas.
+    </p>
+    
+    <p></p>
     <!--Ejemplo 1: Usando el API de Spotify con nodejs-->
     <div class="card-panel teal lighten-4">
         <h3>
-            Ejemplo 1: Usando la API de Spotify con nodejs
+            Ejemplo 1: Usando la API de Spotify con Node.js
         </h3>
     </div>
     <h4>
         ¿Cómo conseguir la API de Spotify?
     </h4>
+    <p>
+      Para conseguir la API de Spotify lo primero que necesitas hacer es ir al link <a href="https://developer.spotify.com/">Spotify for Developers</a>
+      Una vez que nos encontres en la pagina principal, deberias de ver algo asi:
+      <img src="">
+    </p>
     <h4>
         Preparando el archivo de javascript
     </h4>
@@ -71,14 +105,41 @@
         Integrando la API al archivo
     </h4>
     <h4>
-        Usar la API
+        Usar la API de Spotify
     </h4>
+    <h5>
+        Hacer requests
+    </h5>
+    <h5>
+        Mostrar la información en la página
+    </h5>
     <!--Ejemplo 2: Usando OpenAI con nodejs-->
     <div class="card-panel teal lighten-4">
         <h3>
-            Ejemplo 2: Usando OpenAI con nodejs
+            Ejemplo 2: Usando la API de OpenAI con Node.js
         </h3>
     </div>
+    <h4>
+        ¿Cómo conseguir la API de OpenAI?
+    </h4>
+    <h4>
+        Preparando el archivo de javascript
+    </h4>
+    <h4>
+        Integrando la API de OpenAI al archivo
+    </h4>
+    <h4>
+        Usar la API de OpenAI
+    </h4>
+    <h5>
+        Hacer requests
+    </h5>
+    <h5>
+        Hacer requests usando la información de Spotify
+    </h5>
+    <h5>
+        Mostrar la información en la página
+    </h5>
     
     <!--Ejemplo 3: Jokes One-->
     <div class="card-panel teal lighten-4">

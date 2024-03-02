@@ -8,15 +8,24 @@ h1 {
 }
 
 h4 {
+    font-weight: bold;
     margin-top: 10px;    /* top margin */
     margin-bottom: 20px; /* bottom margin */
     margin-left: 40px;    /* left margin */
+    margin-right: 40px;   /* right margin */
+}
+h5 {
+    margin-top: 10px;    /* top margin */
+    margin-bottom: 20px; /* bottom margin */
+    margin-left: 60px;    /* left margin */
     margin-right: 40px;   /* right margin */
 }
 
 p {
     margin-top: 10px;    /* top margin */
     margin-bottom: 20px; /* bottom margin */
-    margin-left: 30px;    /* left margin */
+    margin-left: 60px;    /* left margin */
     margin-right: 20px;   /* right margin */
 }
+
+
