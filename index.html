@@ -64,13 +64,13 @@
 
     
     <h4>
-      ¿Qué es y para qué sirve una API?
+        ¿Qué es y para qué sirve una API?
     </h4>
     <p>
-      Las siglas API significan Interfaz de "Programación de Aplicaciones" o en inglés "Application Programming Interface"  
-      es un conjunto de herramientas que te permiten hacer que dos programas de software se comuniquen entre sí, facilitando
-      la integración y el intercambio de datos entre las aplicaciones deseadas, permitiendo que puedas acceder a ciertas características
-      o servicios de una aplicación sin necesidad de entender a detalle todo lo que está detrás de la aplicación.  
+        Las siglas API significan Interfaz de "Programación de Aplicaciones" o en inglés "Application Programming Interface"  
+        es un conjunto de herramientas que te permiten hacer que dos programas de software se comuniquen entre sí, facilitando
+        la integración y el intercambio de datos entre las aplicaciones deseadas, permitiendo que puedas acceder a ciertas características
+        o servicios de una aplicación sin necesidad de entender a detalle todo lo que está detrás de la aplicación.  
     </p>
 
     <h4>
@@ -91,12 +91,12 @@
         ¿Qué es una solictud POST?
     </h4>
     <p>
-      Una solicitud POST es un manera de enviar datos al servidor para procesarlos, se utiliza para datos al servidor
-      como enviar formularios, datos o crear recursos.
-      Esta solicitud lleva datos en el cuerpo del mensaje, lo que permite enviar información más compleja y extensa.
-      Los datos enviados con una solicitud POST no están directamente visibles en la URL. En lugar de eso, se envían 
-      en el cuerpo de la solicitud, lo que proporciona cierta privacidad y seguridad, especialmente al manejar información 
-      sensible como contraseñas.
+        Una solicitud POST es un manera de enviar datos al servidor para procesarlos, se utiliza para datos al servidor
+        como enviar formularios, datos o crear recursos.
+        Esta solicitud lleva datos en el cuerpo del mensaje, lo que permite enviar información más compleja y extensa.
+        Los datos enviados con una solicitud POST no están directamente visibles en la URL. En lugar de eso, se envían 
+        en el cuerpo de la solicitud, lo que proporciona cierta privacidad y seguridad, especialmente al manejar información 
+        sensible como contraseñas.
     </p>
     
     <p></p>
@@ -110,26 +110,518 @@
         ¿Cómo conseguir la API de Spotify?
     </h4>
     <p>
-      Para conseguir la API de Spotify lo primero que necesitas hacer es ir al link <a  target="blank" href="https://developer.spotify.com/">Spotify for Developers</a>
-      <br>
-      Una vez que te encuentres en la pagina principal, deberias de ver algo asi:
-      <img src="">
+        Para conseguir la API de Spotify lo primero que necesitas hacer es ir al link <a  target="blank" href="https://developer.spotify.com/">Spotify for Developers</a>
+        <br>
+        Una vez que te encuentres en la pagina principal, deberias de ver algo asi:<br>
+        <br>
+        <img  width=30% src="/IMG/1.png"> 
+        <br>
+        <br>
+        Lo que deberas hacer es iniciar sesion con tu cuenta de spotify, en caso de no tener debes crear una.
+        <br>
+        <br>
+        Una vez que inicies sesion en tu cuenta, lo que deberas hacer es ir al dashboard de spotify, se ve dandole click a tu perfil
+        como se muestra a continuación:<br>
+        <br>
+        <img  width=30% src="/IMG/2.png"> 
+        <br>
+        <br>
+        Una vez que ya estes en el dashboard de spotify, deberas de ver una pagina de esta manera, aqui deberas darle click
+        en el create app, para obtener la API que necesitaremos mas adelante<br>
+        <br>
+        <img  width=30% src="/IMG/3.png"> 
+        <br>
+        A continuacion te saldra un menu como el que se muestra a continuacion:<br>
+        <br>
+        <img  width=30% src="/IMG/4.png"> 
+        <br><br>
+        Lo que debes hacer en esta parte en llenar todos los datos que te piden sobre tu proyecto de pagina web.
+        <br>
+        Despues lo que deberas hacer es acceder a la api que necesitaremos despues y gurdarla, de la siguiente manera.
+        <br>
+        Primero cuando estes en la pagina que te muestre al crear tu app, deberas darle click en "Settings"
+        <br>
+        <br>
+        <img  width=30% src="/IMG/5.png"> 
+        <br>
+        <br>
+        Damos click en la seccion de "Show Client secret" y la seccion de "Client ID" son las que necesitaremos mas adelante 
+        para la utilizacion del API de spotify<br>
+        <br>
+        <img  width=30% src="/IMG/6.png"> 
+        <br>
     </p>
+    
     <h4>
         Preparando el archivo de javascript
     </h4>
+    <p>
+        <br>
+        Una vez que ya obtengamos nuestra API de spotify, debemos preparar nuestro archivo de javascript, lo primero que
+        haremos es abrir nuestro IDE que utilicemos, en este caso utilizaremos Visual Studio, dentro del IDE creamos un archivo
+        de javascript<br>
+        <br>
+        <img  width=30% src="/IMG/7.png"> 
+        <br>
+        <br>
+        Primero añadiremos las librerias que necesitaremos para utilizar nodejs, las cuales se describen de la siguiente manera:
+        <br>
+        <br>
+        <img  width=30% src="/IMG/8.png"> 
+        <br>
+        Codigo utilizado:
+        <textarea readonly id="codigo">
+            const http = require('node:http');
+            const querystring = require('node:querystring');
+            const url = require('node:url');
+        </textarea>
+            - **http:** Este módulo se utiliza para crear un servidor HTTP y manejar solicitudes y respuestas HTTP.<br>
+            - **querystring:** Este módulo proporciona funcionalidades para trabajar con cadenas de consulta (query strings), permitiendo el análisis y formato de estas.<br>
+            - **url:** Este módulo facilita el trabajo con URL, permitiendo el análisis y formato de URLs, así como la manipulación de componentes de URL."
+        <br>
+        <br>
+        Cuando ya tengamos nuestro programa con las librerias necesarias ahora si procedemos a crear nuestro servidor:
+        <br>
+        <br>
+        <img  width=30% src="/IMG/9.png"> 
+        <br>
+        Con el codigo mostrado creamos un servidor, pero para que funcione de la manera correcta y poderlo ver en el de manera local
+        necesitamos añadir una funcion que le permita escuchar el puerto en el que se encontrara y la direccion IP donde se encontrara
+        de manera localhost.
+        <br>
+        <br>
+        
+        <br>
+        <img  width=30% src="/IMG/10.png"> 
+        <br>
+        <br>
+        <textarea readonly id="codigo">
+            const http = require('node:http');
+            const querystring = require('node:querystring');
+            const url = require('node:url');
+
+            const server = http.createServer(
+                function (sol,res){
+
+                });
+
+            server.listen(3000, '127.0.0.1', function() { 
+                console.log("Servidor corriendo");
+            });
+        </textarea>
+
+        <br>
+        <b>- **sol**</b> Esta variable es la que permitira recibir una solicitud<br>
+        <b>- **req**</b> Esta variable es que permitira dar una respuesta<br>
+        <b>- **server.listen(puerto,'direccion IP',function(){};)**</b> permite que el servidor escuche el puerto y la IP en la que estara<br>
+        <b>- **console.log("")**</b> Permite verificar que el servidor esta corriendo imprimiendo en la terminal el mensaje deseado<br>
+        <br>
+        Ya que tengamos el codigo de nuestro servidor podemos empezar a a ver nuestra pagina en el servidor, primero utilizaremos
+        el nodejs para correr el servidor con el comando node nombreArchivo.js, para correr el servidor, al hacer esto nos deberia
+        aparecer un mensaje en la consola de la siguiente manera:
+        <br>
+        <br>
+        <img  width=30% src="/IMG/11.png"> 
+        <br>
+        <br>
+        Esto significa que nuestro servidor esta corriendo de manera correcta,pero si tratamos de acceder a el de manera local
+        con localhost en nuestro navegador, se quedara cargando la pagina, esto se debe a que no le hemos indicado una respuesta al
+        servidor, para ello si queremos escribir un mensaje sencillo en pantalla, lo que debemos hacer es usar "res.write("Mensaje");"
+        De esta manera podremos acceder y ver la pagina del servidor usando http://localhost:3000/ en nuestro navegador de confianza
+        <br>
+        <br>
+        <img  width=30% src="/IMG/12.png"> 
+        <img  width=30% src="/IMG/13.png"> 
+        <br>
+        <br>
+
+    </p>   
     <h4>
         Integrando la API al archivo
     </h4>
+        <p> 
+            Para utilizar la API de spotify tenemos que tener bien guardado el Client ID y el Client Secret, lo que haremos primero
+            lo que haremos primero sera definir dos variables que contengan estos datos y una mas para que almacene el api que nos dara el 
+            token de acceso para usar las distintas API de spotify, lo haremos de la siguiente manera:
+        
+        <br>
+        <textarea readonly id="codigo">
+
+            const http = require('node:http');
+            const querystring = require('node:querystring');
+            const url = require('node:url');
+
+            const server = http.createServer(
+                function (sol,res){
+                    const client_id='c5f43f30fd604325832590c67957d246';
+                    const client_secret='813042f218114d4fb355148f32f3a665';
+                    const endpoint_spotify="https://accounts.spotify.com/api/token";
+                });
+
+            server.listen(3000, '127.0.0.1', function() { 
+                console.log("Servidor corriendo");
+            });
+        </textarea>
+            Ahora necesitamos definir tres variables mas, la primera nos permitira leer el url de la pagina para asi poder interactuar con ella desde el url,
+            OJO, es importante denotar que esto en un pagina web publica deberias utilizar metodos para evitar que se modifique de una mala manera,o que 
+            simplemente el usuario pueda interactuar con la pagina sin modficar directamente el url,pero para fines de practica, lo haremos de esa manera.
+            La segunda varible la utilizaremos para analizar la parte de la consulta de la URL y la ultima variable sera la que almanacena el string obtenido
+            del link para que despues la podamos utilizar en la API de spotify.
+            <br>
+            Las variables son:
+            <br>
+            <img  width=30% src="/IMG/14.png"> 
+            <br>
+            Codigo hasta el momento:
+            <br>
+
+            <textarea readonly id="codigo">
+                const http = require('node:http');
+                const querystring = require('node:querystring');
+                const url = require('node:url');
+
+            const server = http.createServer(
+                function (sol,res){
+                    const client_id='c5f43f30fd604325832590c67957d246';
+                    const client_secret='813042f218114d4fb355148f32f3a665';
+                    const endpoint_spotify="https://accounts.spotify.com/api/token";
+
+                    const p = url.parse(sol.url); // Varible que toma una URL como entrada y devuelve un objeto con varias propiedades que representan diferentes partes de la URL
+                    const query  = querystring.parse(p.query); // Variable que analiza la parte de la consulta de la URL
+                    const nombreCancion= query.cancion; //varible que almacenara el nombre de la cancion ingresado en la URL
+                });
+
+            server.listen(3000, '127.0.0.1', function() { 
+                console.log("Servidor corriendo");
+            });
+            </textarea>
+            <br>
+            Para este ejemplo utilizaremos un total de 2 APIS de spotify, la anteriormente dicha que nos dara el token de acceso para 
+            poder utilizar cada api: <a>"https://accounts.spotify.com/api/token"</a> y la api que nos permitira buscar una cancion por su nombre: 
+            <a>"https://api.spotify.com/v1/search?q=Cancion&type=track"</a>.
+            <br>
+            <br>
+            Primero vamos a poner el código se encarga de obtener un token de acceso para autorizar solicitudes a la API de Spotify ya que esesencial 
+            para la autenticación de la aplicación con la API de Spotify. Al obtener un token de acceso válido, la aplicación puede realizar solicitudes
+            autorizadas para obtener información sobre canciones, álbumes, artistas, etc. El token de acceso es fundamental para demostrar que la aplicación 
+            tiene permisos para acceder a los recursos de la API de Spotify en nombre del cliente.
+            <br>
+            <b>Aqui es donde utilizaremos el nuestro client id y el client secret.</b>
+            <br>
+            <br>
+            <img  width=70% src="/IMG/15.png"> 
+            <br>
+            <br>
+            Codigo de la seccion:
+            <br>
+            <textarea readonly id="codigo"> 
+                const getToken = async () => {
+                    const resultado = await fetch(endpoint_spotify, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
+                    });
+            
+                    const datatoken = await resultado.json();
+                    return datatoken.access_token;
+                };
+            </textarea>
+            <br>
+            - <b>**Función getToken:**</b>
+            Esta función asincrónica está diseñada para obtener un token de acceso a la API de Spotify. Es esencial para la autenticación de la aplicación y permite realizar solicitudes autorizadas a la API.
+            <br>
+            <b>- **await fetch(endpoint_spotify, ...):**</b>
+            En esta línea, utilizamos la función `fetch` para realizar una solicitud HTTP a la URL de autenticación de Spotify (`endpoint_spotify`). La solicitud es de tipo POST y lleva consigo la información necesaria para autenticar la aplicación. Esto incluye el `grant_type`, que especifica el tipo de autenticación, así como las credenciales del cliente (`client_id` y `client_secret`).
+            <br>
+            <b>- **await resultado.json():**</b>
+            Después de realizar la solicitud, esperamos la respuesta utilizando `await`. La respuesta se interpreta como JSON utilizando el método `json()`. Este paso es crucial, ya que la respuesta contiene información valiosa, incluido el token de acceso que necesitamos.
+            <br>
+            <b>- **return datatoken.access_token;:**</b>
+            Finalmente, devolvemos el token de acceso obtenido. Este token se convierte en una especie de "pase de acceso" que nuestra aplicación utilizará en futuras solicitudes a la API de Spotify. Permite a la aplicación actuar en nombre del cliente (la aplicación) al autorizar y obtener datos de la API de Spotify.
+            <br>
+            <br>
+            Ahora pongamos el codigo que se encarga de obtener información detallada sobre una canción específica a través de la API de Spotify. Permite buscar una canción por su nombre y devuelve los detalles relevantes.
+            Este código es esencial para obtener detalles específicos de una canción en Spotify. Utilizamos la API de búsqueda de Spotify para obtener información detallada sobre la canción proporcionada. La autenticación con el token asegura que tengamos permisos para acceder a esta información. Este tipo de función es crucial en aplicaciones que desean proporcionar detalles específicos sobre canciones según las consultas de los usuarios.
+            <br>
+            <br>
+            <img  width=70% src="/IMG/16.png"> 
+            <br>
+            <br>
+            Codigo de la seccion:
+            <br>
+            <textarea readonly id="codigo">
+                const getTrack = async (nombreCancion,token)=> {
+                    const urlTrack=`https://api.spotify.com/v1/search?q=`+nombreCancion+`&type=track`;
+                    const response = await fetch(urlTrack,{
+                        method : 'GET',
+                        headers: { 'Authorization': 'Bearer ' + token}
+                    });
+                    return await response.json();
+                };
+            </textarea>
+            <br><br>
+            
+            <b>**`const urlTrack=...`:**</b><br>
+            - Construye la URL de la solicitud utilizando la plantilla de cadena. La URL apunta a la API de búsqueda de Spotify y específicamente busca la canción proporcionada.
+            <br>
+            <b>**`const response = await fetch(urlTrack, ...):`**</b>
+            - Utiliza la función `fetch` para realizar una solicitud GET a la URL construida.<br>
+            - Incluye el token de acceso en los encabezados (`'Authorization': 'Bearer ' + token`) para autenticar la solicitud.
+            <br>
+            <b>**`return await response.json();`:**</b><br>
+            - Espera la respuesta de la solicitud y la interpreta como JSON utilizando el método `json()`.<br>
+            - Devuelve la información de la canción en un formato fácilmente manejable.
+            <br>
+
+        </p>
+    
     <h4>
         Usar la API de Spotify
     </h4>
     <h5>
         Hacer requests
     </h5>
+    <p>
+        Ahora, ya tenemos todo listo para hacer uso de la API de spotify, pero antes tenemos que crear una ultima varible para que podamos 
+        interactuar con el contenido que cada una de las api nos dan, como antes ya manejamos cada formato que nos regresan las distintas api
+        interpretandolas de json.Crearemos una varible que almacenara el token que nos dara autorización a la api de tracks.
+        <br>
+        La variable la llamaremos token y la definiremos de la siguiente manera:
+        <textarea readonly id="codigo">
+            const token = await getToken();
+        </textarea>
+        <br>
+        De esta manera ya estammos haciendo el primer request a la API de spotify, solo que lo estamos haciendo para obtener el token de autorización.
+        y lo podemos comprobar haciendo una impresion a la terminal, esta la podemos hacer con la siguiente linea de codigo:
+        <br>
+        <textarea readonly id="codigo">
+            console.log(token);            
+        </textarea>
+        <br>
+        Al correr el codigo deberiemos ver en terminal el token de acceso:
+        <br>
+        <br>
+        <img  width=70% src="/IMG/17.png"> 
+        <br>
+        <br>
+        Ahora hagamos otro request pero en esta ocasión a la API de tracks, para ello necesitaremos crear una variable que almacene el contenido de la respuesta
+        de la API, la llamaremos "cancion", como hemos mencionado, normalmente las respuestas de las API vienen en un formato json.Por esto mismo cuando hagamos
+        la solicitud y lo mostremos en consola tendra ese formato, para hacer la solicitud a esta API necesitamos mandarle un nombre de cancion y el token:
+        <textarea readonly id="codigo">
+            const token = await getToken();
+            const cancion=await getTrack("Dímelo",token);
+            console.log(cancion);          
+        </textarea>
+        <br>
+        Al poner este codigo deberiamos de ver algo asi en la terminal:
+        <br>
+        <br>
+        <img  width=60% src="/IMG/18.png"> 
+        <br>
+        <br>
+        Lo que observamos es que tiene varios elementos dentro de la variable, si queremos acceder a uno en especifico primero debemos de ver bien el contenido 
+        del archivo para ver sus elementos, para eso necesitamos la funcion JSON.stringify(), la cual nos dara mejor formato, lo utilizaremos de la siguiente manera:
+        <textarea readonly id="codigo">
+            const token = await getToken();
+            const cancion=await getTrack("Dímelo",token);
+            console.log(JSON.stringify(cancion, null, 2));          
+        </textarea>
+        <br>
+        Deberiamos de ver el terminal algo asi:
+        <br>
+        <br>
+        <img  width=60% src="/IMG/19.png"> 
+        <br>
+        <br>
+        De esta manera ya sabemos el contenido de la variable y podemos acceder a la parte que deseamos, pero eso lo mostraremos ya en pantalla de la pagina, pero lo haremos
+        en la seccion siguiente:
+    </p>
     <h5>
         Mostrar la información en la página
     </h5>
+    <p>
+        Aqui mostraremos la manera en como se muestran datos en la página, para esto seguiremos con el codigo que tenemos y agregaremos
+        unos condicionales, asi como unas variables mas que nos permitiran tener un buen funcionamiento de la pagina, y utilizaremos la variable que creamos para que el usuario interactue con la pagina
+        desde el url de la misma:
+        <br>
+        <br>
+        <img  width=60% src="/IMG/20.png"> 
+        <br>
+        <br>
+        Codigo utilizado:
+        <textarea readonly id="codigo">
+
+            if(nombreCancion == null){
+                res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
+                res.write("http://localhost:3000/?cancion=Raton%20Vaquero")
+                res.end();
+            }else{
+                const cancion= await getTrack(nombreCancion,token);
+    
+                const urlCancion = cancion.tracks.items[0].album.artists[0].external_urls.spotify;
+                const artista = cancion.tracks.items[0].album.artists[0].name;
+                const markets = cancion.tracks.items[0].album.available_markets.slice(0, 10);
+    
+    
+                res.write("La cancion ingresa es: "+ nombreCancion);
+                res.write ("\nEl nombre del artista es: " + artista);
+                res.write("\nLink que te lleva al artista: " + urlCancion);
+                res.write("\nLos paises donde se encuentra disponible son:\n")
+                
+                for (let i = 0; i < markets.length; i++) {
+                    res.write(`${i+1}`+ ".- " + markets[i]+ "\n")
+                }
+                //res.write(JSON.stringify(cancion));
+                res.end();
+            }         
+        </textarea>
+        <br> 
+        Explicación del codigo:
+        <br>
+        <b>-**res.write()**:</b> Esta función se utiliza para escribir datos en la respuesta que se enviará al cliente. Puede recibir cadenas de texto o datos en formato binario.
+        <br>
+        <b>-**res.end():**</b> Esta función finaliza la respuesta. Después de llamar a res.end(), la respuesta se considera completa y se envía al cliente.</b>
+        <br><br>
+        El primer condicional: <b>"if (nombreCancion == null)" </b> En este bloque condicional, se verifica si nombreCancion es null. Esto significa que el parámetro "cancion" no se proporcionó en la URL.
+        En caso de que no el nombre no se encuentre o sea de tipo null el servidor responde indicando al usuario cómo debe ingresar el nombre de la canción en la URL.
+        <br><br>
+        En caso de que la varible de "nombreCancion" tiene un valor, el servidor continúa con el siguiente bloque. Que lo que hacemos es que en esta seccion es
+        que <b>"const cancion = await getTrack(nombreCancion, token);"</b> Utiliza la función getTrack para obtener información detallada sobre la canción utilizando el nombre proporcionado y el token de acceso.
+        <br><br>
+        Para la siguiente parte de la seccion:<br><br>
+        <b>
+        const urlCancion = cancion.tracks.items[0].album.artists[0].external_urls.spotify;<br>
+        const artista = cancion.tracks.items[0].album.artists[0].name;<br>
+        const markets = cancion.tracks.items[0].album.available_markets.slice(0, 10);<br>
+        <br>
+        </b>
+        Extrae información específica de la canción como el enlace del artista, el nombre del artista y los mercados disponibles.De esta manera es como podemos obtener los valores espcificos de un fomato JSON,
+        en nuestro caso solo tomamos unos cuantos para ejemplicar su uso.
+        <br><br>
+        Por ultimo, generamos lo que sera la respuesta final con cada uno de los res.write() siguientes:
+        <br><br>
+        <b>
+        res.write("La canción ingresada es: " + nombreCancion);<br>
+        res.write("\nEl nombre del artista es: " + artista);<br>
+        res.write("\nLink que te lleva al artista: " + urlCancion);<br>
+        res.write("\nLos países donde se encuentra disponible son:\n")<br>
+        for (let i = 0; i < markets.length; i++) {<br>
+            res.write(`${i+1}` + ".- " + markets[i] + "\n")<br>
+        }<br>
+        res.end();<br>
+        </b>
+        <br>
+        Construye la respuesta del servidor incluyendo información sobre la canción, el artista, el enlace del artista y los primeros 10 países donde está disponible la canción.<br>
+        El bucle for recorre los mercados y los agrega a la respuesta.<br>
+        Finaliza la respuesta con res.end()<br>
+        <br>
+        Codigo completo:
+        <br>
+        <textarea readonly id="codigo">
+            const http = require('node:http');
+            const querystring = require('node:querystring');
+            const url = require('node:url');
+
+            const server = http.createServer(
+                async function (sol,res){
+
+                    const client_id='c5f43f30fd604325832590c67957d246';
+                    const client_secret='813042f218114d4fb355148f32f3a665';
+                    const endpoint_spotify="https://accounts.spotify.com/api/token";
+
+                    const p = url.parse(sol.url); // Varible que toma una URL como entrada y devuelve un objeto con varias propiedades que representan diferentes partes de la URL
+                    const query  = querystring.parse(p.query); // Variable que analiza la parte de la consulta de la URL
+                    const nombreCancion= query.cancion; //varible que almacenara el nombre de la cancion ingresado en la URL
+
+
+                    //Esta funcion de getToken, lo que hace es que damos las credenciales a la API para obtener el token de acceso a las api
+                    const getToken = async () => {
+                        const resultado = await fetch(endpoint_spotify, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
+                        });
+                
+                        const datatoken = await resultado.json();
+                        return datatoken.access_token;
+                    };                    
+
+                    const getTrack = async (nombreCancion,token)=> {
+                        const urlTrack=`https://api.spotify.com/v1/search?q=`+nombreCancion+`&type=track`;
+                        const response = await fetch(urlTrack,{
+                            method : 'GET',
+                            headers: { 'Authorization': 'Bearer ' + token}
+                        });
+                        return await response.json();
+                    };
+
+                    const token = await getToken();
+                    
+                    if(nombreCancion == null){
+                        res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
+                        res.write("http://localhost:3000/?cancion=Raton%20Vaquero")
+                        res.end();
+                    }else{
+                        const cancion= await getTrack(nombreCancion,token);
+
+                        const urlCancion = cancion.tracks.items[0].album.artists[0].external_urls.spotify;
+                        const artista = cancion.tracks.items[0].album.artists[0].name;
+                        const markets = cancion.tracks.items[0].album.available_markets.slice(0, 10);
+
+
+                        res.write("La cancion ingresa es: "+ nombreCancion);
+                        res.write ("\nEl nombre del artista es: " + artista);
+                        res.write("\nLink que te lleva al artista: " + urlCancion);
+                        res.write("\nLos paises donde se encuentra disponible son:\n")
+                        
+                        for (let i = 0; i < markets.length; i++) {
+                            res.write(`${i+1}`+ ".- " + markets[i]+ "\n")
+                        }
+                        //res.write(JSON.stringify(cancion));
+                        res.end();
+                    }
+                    
+                });
+
+            server.listen(3000, '127.0.0.1', function() { 
+                console.log("Servidor corriendo");
+            }); 
+        </textarea>
+        <br>
+        Al correr el codigo que hemos creado, deberiamos de ver en terminal ningún tipo de error:
+        <br>
+        <br>
+        <img  width=60% src="/IMG/21.png"> 
+        <br>
+        <br>
+        Ahora debemos ir a nuestro servidor de confianza y escribir en el buscador o barra de url <b>"http://localhost:3000/"</b>
+        <br>
+        <br>
+        <img  width=60% src="/IMG/22.png"> 
+        <br>
+        <br>
+        Y deberiamos de poder ver nuestra pagina al darle enter y veremos algo asi:
+        <br>
+        <br>
+        <img  width=60% src="/IMG/23.png"> 
+        <br>
+        <br>
+        Lo que observamos fue que nuestros primeros condicionales funcionaron, esto se debe a que aun no se le ah dado un valor en el url a cancion, para ello y ver que funcione
+        las llamadas a nuestros apis y la siguiente seccion de codigo, modificaremos el url con "http://localhost:3000/?cancion=Reina de Pikas" y de esta manera nos dara
+        el resultado de la cancion ingresada:
+        <br>
+        <br>
+        <img  width=40% src="/IMG/24.png">
+        <img  width=40% src="/IMG/25.png"> 
+        <br>
+        <br>
+
+
+    
+
+    
+    </p>
+
     <!--Ejemplo 2: Usando OpenAI con nodejs-->
     <div class="card-panel teal lighten-4">
         <h3>
