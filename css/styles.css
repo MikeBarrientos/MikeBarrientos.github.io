@@ -49,3 +49,18 @@ a{
     color: blue;
     text-decoration: underline;
 }
+
+#codigoAI {
+    width: 60%;
+    height: 500px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    background-color: lightgray;
+    resize: none;
+}

@@ -631,9 +631,44 @@
     <h4>
         ¿Cómo conseguir la API de OpenAI?
     </h4>
+    <p>
+        1. Ingresa a la página de OpenAI para desarrolladores:
+        <a target="blank" href="https://platform.openai.com/docs/overview"> https://platform.openai.com/docs/overview</a>
+    </p>
+    <p>2. Accede o crea una cuenta nueva.</p>
+    <p>3. Da click en la esquina superior izquierda, e ingresa en la sección API keys del menú que despliega.</p>
+    <p><img  width=40% src="/IMG/ai1.png"></p>
+    <p>4. Da click en el botón + Create a new secret key. Has generado tu nueva secret key.</p>
+    <p><img  width=40% src="/IMG/ai2.png"></p>
+    <p></p>
     <h4>
         Preparando el archivo de javascript
     </h4>
+    <p>1. En tu archivo .js agrega la siguiente función:</p>
+    <p><textarea readonly id="codigoAI">
+        function miFuncionOpenAI() {
+            const endpoint_ai='https://api.openai.com/v1/chat/completions'
+            const opciones = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json','Authorization': 'Bearer sk-apiKEYopenAI' },
+              body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": descrip}] })
+          };
+        
+          fetch(endpoint_ai, opciones).then(
+                function(respuesta){
+                    //console.log(respuesta);
+                return respuesta.json();
+              }
+            ).then(
+                function(j){
+                  let response = j.choices[0].message.content
+                  
+                  displayResponse(response)
+              }
+          );
+                
+        }
+    </textarea></p>
     <h4>
         Integrando la API de OpenAI al archivo
     </h4>

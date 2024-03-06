@@ -2,6 +2,7 @@ const http = require('node:http');
 const querystring = require('node:querystring');
 const url = require('node:url');
 
+//OPENAI
 const server = http.createServer(
     async function (sol,res){
 
