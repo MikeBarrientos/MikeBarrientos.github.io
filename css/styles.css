@@ -64,3 +64,30 @@ a{
     background-color: lightgray;
     resize: none;
 }
+
+.code-container {
+    margin-left: 0; /* Set left margin to 0 */
+    padding-left: 20px; /* Add left padding to create space */
+    display: inline-block;
+}
+
+pre {
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+    font-family: 'Courier New', Courier, monospace; /* Use a monospace font */
+}
+
+code {
+    font-family: inherit; /* Inherit font-family from parent (pre) */
+    color: #cdcdcd; /* Set code text color */
+    
+}
+
+ol {
+    list-style-type: decimal; /* Use decimal numbering */
+    list-style-position: outside; /* Place numbering outside the list items */
+    margin: 20px; /* Add space above and below the list */
+    padding-left: 60px; /* Add space to the left of the list */
+}

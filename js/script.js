@@ -1,10 +1,13 @@
 const http = require('node:http');
 const querystring = require('node:querystring');
 const url = require('node:url');
+let message = "Hello chat";
+let responseAI;
 
-//OPENAI
 const server = http.createServer(
     async function (sol,res){
+
+        const endpoint_ai='https://api.openai.com/v1/chat/completions'
 
         const client_id='c5f43f30fd604325832590c67957d246';
         const client_secret='813042f218114d4fb355148f32f3a665';
@@ -40,7 +43,7 @@ const server = http.createServer(
         };
 
         const token = await getToken();
-        
+
         if(nombreCancion == null){
             res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
             res.write("http://localhost:3000/?cancion=Raton%20Vaquero")
@@ -58,11 +61,30 @@ const server = http.createServer(
             res.write("\nLink que te lleva al artista: " + urlCancion);
             res.write("\nLos paises donde se encuentra disponible son:\n")
             
+            
             for (let i = 0; i < markets.length; i++) {
                 res.write(`${i+1}`+ ".- " + markets[i]+ "\n")
             }
-            //res.write(JSON.stringify(cancion));
+
+            message = "Dame informacion del artista " + artista ;
+            //OPENAI
+            const getAI = async () => {
+            const resultado2 = await fetch(endpoint_ai, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
+                body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}]})
+                });
+    
+                const dataAI = await resultado2.json();
+                return dataAI;
+            };
+
+        responseAI = await getAI();
+
+            
+            res.write(responseAI.choices[0].message.content)
             res.end();
+
         }
         
     });

@@ -7,6 +7,8 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="path/to/prism.css">
+    <script src="path/to/prism.js"></script>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -640,51 +642,221 @@
     <p><img  width=40% src="/IMG/ai1.png"></p>
     <p>4. Da click en el botón + Create a new secret key. Has generado tu nueva secret key.</p>
     <p><img  width=40% src="/IMG/ai2.png"></p>
-    <p></p>
+    
     <h4>
         Preparando el archivo de javascript
     </h4>
-    <p>1. En tu archivo .js agrega la siguiente función:</p>
-    <p><textarea readonly id="codigoAI">
-        function miFuncionOpenAI() {
-            const endpoint_ai='https://api.openai.com/v1/chat/completions'
-            const opciones = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json','Authorization': 'Bearer sk-apiKEYopenAI' },
-              body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": descrip}] })
-          };
-        
-          fetch(endpoint_ai, opciones).then(
-                function(respuesta){
-                    //console.log(respuesta);
-                return respuesta.json();
-              }
-            ).then(
-                function(j){
-                  let response = j.choices[0].message.content
-                  
-                  displayResponse(response)
-              }
-          );
-                
+    <p>1. El siguiente paso es similar al uso de la API de Spotify. En un archivo .js vacío, agrega el siguiente código:</p>
+    <pre><code>
+        const http = require('node:http');
+        let message = "Hello chat"
+        const server = http.createServer(
+            function (sol,res){
+                const endpoint_ai='https://api.openai.com/v1/chat/completions'
+                const opciones = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json','Authorization': 'Bearer sk-YourAPIKey' },
+                body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}] })
+            };
+            
+            fetch(endpoint_ai, opciones).then(
+                    function(respuesta){
+                        //console.log(respuesta);
+                    return respuesta.json();
+                }
+                ).then(
+                    function(j){
+                    let response = j.choices[0].message.content
+                    
+                    res.write(response)
+                    res.end();
+                }
+            );
+                    
+            }
+        );
+
+        server.listen(3000, '127.0.0.1', function(){
+            console.log("Servidor escuchando");
         }
-    </textarea></p>
+        );
+
+    </code></pre>
+    <h5>Explicación del código:</h5>
+    <p>Este código es un servidor básico escrito en JavaScript utilizando Node.js. Las partes principales son:</p>
+    <ol>
+        <li><strong>Importación del módulo http:</strong> Importa el módulo <strong>http</strong> de Node.js, que se utiliza para crear un servidor web.</li>
+        <textarea readonly id="codigo">
+        const http = require('node:http');
+        </textarea>
+        <li><strong>Definición del mensaje:</strong> Define un mensaje que se enviará al servidor para obtener una respuesta del modelo de IA.</li>
+        <textarea readonly id="codigo">
+        let message = "Hello chat";
+        </textarea>
+        <li><strong>Creación del servidor:</strong> Crea un servidor HTTP con la función <strong>createServer()</strong> que toma como argumento una función de callback. Esta función de callback se ejecutará cada vez que el servidor reciba una solicitud.</li>
+        <textarea readonly id="codigo">
+        const server = http.createServer(function(sol,res){ ... });
+        </textarea>
+        <li><strong>Definición del endpoint de la API de OpenAI y las opciones de la solicitud:</strong> Define el endpoint de la API de OpenAI y las opciones de la solicitud HTTP que se enviará al servidor de OpenAI para obtener una respuesta.</li>
+        <textarea readonly id="codigo">
+        const endpoint_ai = 'https://api.openai.com/v1/chat/completions';
+        const opciones = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer sk-YourAPIKey' },
+            body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}] })
+        };
+        </textarea>
+        <li><strong>Envío de la solicitud al servidor de OpenAI:</strong> Utiliza la función <strong>fetch</strong> para enviar una solicitud HTTP al servidor de OpenAI con las opciones definidas anteriormente. Utiliza el método <strong>then()</strong> para manejar la respuesta de la solicitud.</li>
+        <textarea readonly id="codigo">
+        fetch(endpoint_ai, opciones).then(function(respuesta){ ... });
+        </textarea>
+        <li><strong>Manejo de la respuesta del servidor de OpenAI (Recuerda reemplazar tus API keys):</strong> La respuesta del servidor de OpenAI se convierte a formato JSON, luego se extrae el contenido del mensaje de la respuesta y se escribe en la respuesta del servidor local.</li>
+        <textarea readonly id="codigo">
+        function(respuesta){
+            return respuesta.json();
+        }
+        ).then(
+            function(j){
+                let response = j.choices[0].message.content;
+                res.write(response);
+                res.end();
+            }
+        );
+        </textarea>
+        <li><strong>Inicio del servidor:</strong> Inicia el servidor para que escuche las solicitudes entrantes en el puerto 3000 y la dirección IP local 127.0.0.1. Cuando el servidor comienza a escuchar, se imprime un mensaje en la consola.</li>
+        <textarea readonly id="codigo">
+        server.listen(3000, '127.0.0.1', function(){
+            console.log("Servidor escuchando");
+        });
+        </textarea>
+    </ol>
     <h4>
         Integrando la API de OpenAI al archivo
     </h4>
+    <p>1. Reemplaza <strong>sk-YourAPIKey</strong> con tu API key obtenida en OpenAI para developers.</p>
+    <p></p> 
     <h4>
         Usar la API de OpenAI
     </h4>
     <h5>
-        Hacer requests
+        Mostrar la información en la página
     </h5>
+    <p>Para incializar el servidor, escribe en la terminal la siguiente línea (asegurate estar en la carpeta de tu archivo):</p>
+    <pre><code class="language-html">
+        node nombredearchivo.js
+    </code></pre>
+    <p>Presiona <strong>Ctrl-C</strong> en la terminal para terminar al servidor antes de modificar el código.</p>
+    <h5>
+        Hacer requests 
+    </h5>
+    <p>1. La variable <strong>message</strong> es tiene el mensaje que se mandará la API. Modifica su valor para hacerle preguntas diferentes.</p> 
+    <p><img  width=20% src="/IMG/ai3.png"></p>
+    <p>2. Verifica que en la terminal aparezca el mensaje: <strong>Servidor escuchando</strong></p>
+    <p>3. Inicializa el servidor e ingresa a tu browser y escribe en la barra de búsqueda: <strong>http://localhost:3000/</strong></p> 
+    <p>4. El mensaje de vuelta debe aparecer en la página.</p> 
+    <p><img  width=20% src="/IMG/ai5.png"></p>
     <h5>
         Hacer requests usando la información de Spotify
     </h5>
-    <h5>
-        Mostrar la información en la página
-    </h5>
-    
+    <p>1. Tomaremos el código de la sección de Spotify y agregaremos elementos de OpenAI:</p> 
+    <pre><code>
+    const http = require('node:http');
+    const querystring = require('node:querystring');
+    const url = require('node:url');
+    let message = "Hello chat";
+    let responseAI;
+
+    const server = http.createServer(
+        async function (sol,res){
+
+            const endpoint_ai='https://api.openai.com/v1/chat/completions'
+
+            const client_id='c5f43f30fd604325832590c67957d246';
+            const client_secret='813042f218114d4fb355148f32f3a665';
+            const endpoint_spotify="https://accounts.spotify.com/api/token";
+
+            const p = url.parse(sol.url); // Varible que toma una URL como entrada y devuelve un objeto con varias propiedades que representan diferentes partes de la URL
+            const query  = querystring.parse(p.query); // Variable que analiza la parte de la consulta de la URL
+            const nombreCancion= query.cancion; //varible que almacenara el nombre de la cancion ingresado en la URL
+
+
+            //Esta funcion de getToken, lo que hace es que damos las credenciales a la API para obtener el token de acceso a las api
+            const getToken = async () => {
+                const resultado = await fetch(endpoint_spotify, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
+                });
+        
+                const datatoken = await resultado.json();
+                return datatoken.access_token;
+            };
+
+            // //Una funcion para obtener el ID de una cancion
+            
+
+            const getTrack = async (nombreCancion,token)=> {
+                const urlTrack=`https://api.spotify.com/v1/search?q=`+nombreCancion+`&type=track`;
+                const response = await fetch(urlTrack,{
+                    method : 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token}
+                });
+                return await response.json();
+            };
+
+            const token = await getToken();
+
+            if(nombreCancion == null){
+                res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
+                res.write("http://localhost:3000/?cancion=Raton%20Vaquero")
+                res.end();
+            }else{
+                const cancion= await getTrack(nombreCancion,token);
+
+                const urlCancion = cancion.tracks.items[0].album.artists[0].external_urls.spotify;
+                const artista = cancion.tracks.items[0].album.artists[0].name;
+                const markets = cancion.tracks.items[0].album.available_markets.slice(0, 10);
+
+
+                res.write("La cancion ingresa es: "+ nombreCancion);
+                res.write ("\nEl nombre del artista es: " + artista);
+                res.write("\nLink que te lleva al artista: " + urlCancion);
+                res.write("\nLos paises donde se encuentra disponible son:\n")
+                
+                
+                for (let i = 0; i < markets.length; i++) {
+                    res.write(`${i+1}`+ ".- " + markets[i]+ "\n")
+                }
+
+                message = "Dame informacion del artista " + artista ;
+                //OPENAI
+                const getAI = async () => {
+                const resultado2 = await fetch(endpoint_ai, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json','Authorization': 'Bearer sk-YourOpenAiAPIKey' },
+                    body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}]})
+                    });
+        
+                    const dataAI = await resultado2.json();
+                    return dataAI;
+                };
+
+            responseAI = await getAI();
+
+                
+                res.write(responseAI.choices[0].message.content)
+                res.end();
+
+            }
+            
+        });
+
+    server.listen(3000, '127.0.0.1', function() { 
+        console.log("Servidor corriendo");
+    }); 
+    </pre></code>
+    <p>Ahora vuelve a inicializar el servidor. Ahora OpenAI nos da información del artista de la canción solicitada:</p> 
+    <p><img  width=100% src="/IMG/ai6.png"></p>
     <!--Ejemplo 3: Jokes One-->
     <div class="card-panel teal lighten-4">
         <h3>
