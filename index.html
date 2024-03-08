@@ -30,7 +30,7 @@
                 Cómo usar nodejs para consumir servicios web
                 </h3>
                 <h6>
-                  <p>Elaborado por:<br> Gabriel Alvarez Arzate A01642991 <br> Miguel Angel Barrientos Ballesteros A01637150</p>
+                  <p>Por:<br> Gabriel Alvarez Arzate A01642991 <br> Miguel Angel Barrientos Ballesteros A01637150</p>
                 </h6>
             </div>
         </div>
@@ -902,37 +902,59 @@
         Preparar un archivo de javascript
     </h5>
     <p>
-        Simliar a los casos anteriores, para utilizar la API de Marvel con <strong>Node.js</strong> 
-        es necesario preparar un archivo .js con los elementos principales:
+        Para hacer uso de la API de Marvel es necesario instalar la galería de crypto-js. En la terminal, escribe la siguiente línea y ejecútala:
     </p>
     <pre><code class="language-html">
-        //Variables para la API de Marvel
-        const publicKey = '7ffb940ea8959e190f046e1af43ea9b9';
-        const privateKey = 'dd741e9af4409424e64b257d788e15fa5eda9ac4';
+        npm install crypto-js
+    </pre></code>
+    <p>
+        Simliar a los casos anteriores, para utilizar la API de Marvel con <strong>Node.js</strong> 
+        es necesario preparar un archivo .js con los elementos principales. Reemplaza TUPUBLICKEY y TUPRIVATEKEY con las keys obtenidas:
+    </p>
+    <pre><code class="language-html">
+        const http = require('node:http');
+        const CryptoJS = require('crypto-js');
+
+        const publicKey = 'TUPUBLICKEY';
+        const privateKey = 'TUPRIVATEKEY';
         const timestamp = new Date().getTime();
         const hash = CryptoJS.MD5(timestamp + privateKey + publicKey).toString();
+        const characterName = 'Wolverine';
 
         const apiUrl = 'https://gateway.marvel.com/v1/public/characters';
-        const fullUrl = `${apiUrl}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&name=${encodeURIComponent(characterName)}`; 
+        const fullUrl = `${apiUrl}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&name=${encodeURIComponent(characterName)}`;
 
-        async function Marvel(fullUrl) {
-            try {
-                const response = await fetch(fullUrl);
-                const data = await response.json();
-        
-            // Check if any characters were found
-            if (data.code === 200 && data.data.total > 0) {
-                const character = data.data.results[0]; // Get the first character found
-                return character;
-            } else {
-                console.log('No characters found with that name.');
-                return null; // Return null if no characters were found
-            }
-            } catch (error) {
-            console.error('Error fetching data:', error);
-              throw error; // Re-throw the error to be handled by the calling code
-            }
-        }
+        const server = http.createServer(function (req, res) {
+        fetch(fullUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Check if any characters were found
+                if (data.code === 200 && data.data.total > 0) {
+                    const character = data.data.results[0]; // Get the first character found
+                    // Write character information to the webpage
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.write(`&lt;h1>Name: ${character.name}&lt;/h1>`);
+                    res.write(`&lt;p>Description: ${character.description}&lt;/p>`);
+                    res.write(`&lt;img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"/>`);
+                    // Add any other information you want to write to the webpage
+                    res.end();
+                } else {
+                    res.writeHead(404, { 'Content-Type': 'text/html' });
+                    res.write('&lt;h1>No characters found with that name.&lt;/h1>');
+                    res.end();
+                }
+            })
+            .catch(error => {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.write('&lt;h1>Error fetching data.&lt;/h1>');
+                res.end();
+            });
+        });
+
+        server.listen(3000, '127.0.0.1', function () {
+        console.log("Server listening");
+        });
+
     </code></pre>
     <h5>
         Mostrar la información en la página
@@ -942,11 +964,13 @@
         node nombredearchivo.js
     </code></pre>
     <p>Presiona <strong>Ctrl-C</strong> en la terminal para terminar al servidor antes de modificar el código.</p>
-    <h5>
-        Hacer requests 
-    </h5>
-    <p>1. </p> 
-    <p><img  width=60% src="/IMG/.png"></p>
+    <p>
+        1. La variable <strong>characterName</strong> guarda el nombre del superhéroe que pediremos a la Marvel. Modifica su valor al superhéroe que quieras.
+    </p> 
+    <p>
+        2. Inicializa el servidor y obtendrás la información en la página. 
+    </p> 
+    <p><img  width=60% src="/IMG/marv1.png"></p>
     <p>2. Inicializa el servidor y verifica que en la terminal aparezca el mensaje: <strong>Servidor escuchando</strong></p>
     <p>3. Escribe en la barra de búsqueda: <strong>http://localhost:3000/?cancion=Nombre%20de%20Cancion</strong></p> 
     <p>4. El mensaje de vuelta debe aparecer en la página.</p> 
@@ -954,50 +978,163 @@
     <h5>
         Usar la API de Marvel junto con OpenAI
     </h5>
-    <p>Para incializar el servidor, escribe en la terminal la siguiente línea (asegurate estar en la carpeta de tu archivo):</p>
-    <pre><code class="language-html">
-        node nombredearchivo.js
-    </code></pre>
-    <p>Presiona <strong>Ctrl-C</strong> en la terminal para terminar al servidor antes de modificar el código.</p>
-    <p>1.</p>
-    <p><img  width=20% src="/IMG/.png"></p>
-    <p>2. Debemos añadir una nueva seccion dentro de la zona de las impresiones, la cual nos permita mandarle un mensaje nuevo a la API de chatGPt,
-        este codigo deberia de ir debajo de la ultima respuesta que ponemos en pantalla de ChatGPT
+    <p>1. Para utilizar las 3 APIs revisadas juntas (Spotify, OpenAI, Marvel), es necesario integrar el último código al resto. El código final es el siguiente:
     </p>
     <pre><code class="language-html">
-        res.write(responseAI.choices[0].message.content); 
-            
-            
-            const character= await Marvel(fullUrl);
-            if(character !== null){    
-                const HeroDescription = character.description; 
+        const http = require('node:http');
+        const CryptoJS = require('crypto-js');
 
-                messageMarvel ="Adivina de que personaje estamos describiendo y dame peliculas donde salga: " + HeroDescription;
+        const querystring = require('node:querystring');
+        const url = require('node:url');
 
-                const getAIMarvel = async () => {
+        const server = http.createServer(
+            async function (sol,res){
+
+                const endpoint_ai='https://api.openai.com/v1/chat/completions'
+
+                const client_id='c5f43f30fd604325832590c67957d246';
+                const client_secret='813042f218114d4fb355148f32f3a665';
+                const endpoint_spotify="https://accounts.spotify.com/api/token";
+
+                const p = url.parse(sol.url); // Varible que toma una URL como entrada y devuelve un objeto con varias propiedades que representan diferentes partes de la URL
+                const query  = querystring.parse(p.query); // Variable que analiza la parte de la consulta de la URL
+                const nombreCancion= query.cancion; //varible que almacenara el nombre de la cancion ingresado en la URL
+                const characterName = query.Heroe;
+
+                let responseAI;
+
+
+                //Variables para la API de Marvel
+                const publicKey = '7ffb940ea8959e190f046e1af43ea9b9';
+                const privateKey = 'dd741e9af4409424e64b257d788e15fa5eda9ac4';
+                const timestamp = new Date().getTime();
+                const hash = CryptoJS.MD5(timestamp + privateKey + publicKey).toString();
+
+                const apiUrl = 'https://gateway.marvel.com/v1/public/characters';
+                const fullUrl = `${apiUrl}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&name=${encodeURIComponent(characterName)}`; 
+
+                async function Marvel(fullUrl) {
+                    try {
+                        const response = await fetch(fullUrl);
+                        const data = await response.json();
+                
+                    // Check if any characters were found
+                    if (data.code === 200 && data.data.total > 0) {
+                        const character = data.data.results[0]; // Get the first character found
+                        return character;
+                    } else {
+                        console.log('No characters found with that name.');
+                        return null; // Return null if no characters were found
+                    }
+                    } catch (error) {
+                    console.error('Error fetching data:', error);
+                    throw error; // Re-throw the error to be handled by the calling code
+                    }
+                }
+
+                //Esta funcion de getToken, lo que hace es que damos las credenciales a la API para obtener el token de acceso a las api
+                const getToken = async () => {
+                    const resultado = await fetch(endpoint_spotify, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
+                    });
+            
+                    const datatoken = await resultado.json();
+                    return datatoken.access_token;
+                };        
+
+                const getTrack = async (nombreCancion,token)=> {
+                    const urlTrack=`https://api.spotify.com/v1/search?q=`+nombreCancion+`&type=track`;
+                    const response = await fetch(urlTrack,{
+                        method : 'GET',
+                        headers: { 'Authorization': 'Bearer ' + token}
+                    });
+                    return await response.json();
+                };
+
+                const token = await getToken();
+
+                //Funcionpara obtener el personaje de Marvel
+                if(nombreCancion == null){
+                    res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
+                    res.write("http://localhost:3000/?cancion=Raton%20Vaquero")
+                    res.end();
+                }else{
+                    const cancion= await getTrack(nombreCancion,token);
+
+                    const urlCancion = cancion.tracks.items[0].album.artists[0].external_urls.spotify;
+                    const artista = cancion.tracks.items[0].album.artists[0].name;
+                    const markets = cancion.tracks.items[0].album.available_markets.slice(0, 10);
+
+
+                    res.write("La cancion ingresa es: "+ nombreCancion);
+                    res.write ("\nEl nombre del artista es: " + artista);
+                    res.write("\nLink que te lleva al artista: " + urlCancion);
+                    res.write("\nLos paises donde se encuentra disponible son:\n")
+                    
+                    
+                    for (let i = 0; i < markets.length; i++) {
+                        res.write(`${i+1}`+ ".- " + markets[i]+ "\n")
+                    }
+
+                    message = "Dame informacion del artista " + artista ;
+                    //OPENAI
+                    const getAI = async () => {
                     const resultado2 = await fetch(endpoint_ai, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
-                        body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": messageMarvel}]})
+                        body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}]})
                         });
             
                         const dataAI = await resultado2.json();
                         return dataAI;
                     };
 
-                responseAIMarvel= await getAIMarvel();
-                res.write("\n\n");
-                res.write(responseAIMarvel.choices[0].message.content);
-                }else{
-                    res.write("\n\nSi quieres que chat adivine un heroe de marvel que ingreses en el url y que te diga peliculas donde sale necesitas ingresar: ");
-                    res.write("http://localhost:3000/?cancion=Reina%20de%20Pikas&Heroe=Spider-Man")
-                }
-            res.end();
-    </code></pre>
-    <p>3. Escribe en la barra de búsqueda: <strong>http://localhost:3000/?cancion=Nombre%20de%20Cancion&Heroe=Nombre%20Heroe</strong></p> 
-    <p>4. El mensaje de vuelta debe aparecer en la página.</p> 
-    <p><img  width=60% src="/IMG/ai8.png"></p>
+                    responseAI = await getAI();
 
+                    //console.log(responseAI.choices[0].message.content);
+                    res.write(responseAI.choices[0].message.content); 
+                    
+                    
+                    const character= await Marvel(fullUrl);
+                    if(character !== null){    
+                        const HeroDescription = character.description; 
+
+                        messageMarvel ="Adivina de que personaje estamos describiendo y dame peliculas donde salga: " + HeroDescription;
+
+                        const getAIMarvel = async () => {
+                            const resultado2 = await fetch(endpoint_ai, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
+                                body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": messageMarvel}]})
+                                });
+                    
+                                const dataAI = await resultado2.json();
+                                return dataAI;
+                            };
+
+                        responseAIMarvel= await getAIMarvel();
+                        res.write("\n\n");
+                        res.write(responseAIMarvel.choices[0].message.content);
+                        }else{
+                            res.write("\n\nSi quieres que chat adivine un heroe de marvel que ingreses en el url y que te diga peliculas donde sale necesitas ingresar: ");
+                            res.write("http://localhost:3000/?cancion=Reina%20de%20Pikas&Heroe=Spider-Man")
+                        }
+                    res.end();
+
+                }
+                
+            });
+
+        server.listen(3000, '127.0.0.1', function() { 
+            console.log("Servidor corriendo");
+        }); 
+    </code></pre>
+    <p>2. Inicializa el servidor y escribe en la barra de búsqueda: <strong>http://localhost:3000/?cancion=Nombre%20de%20Cancion&Heroe=Nombre%20Heroe</strong></p> 
+    <p>3. El mensaje de vuelta debe aparecer en la página.</p> 
+    <p><img  width=60% src="/IMG/ai8.png"></p>
+    <p>Ahora has terminado implementando 3 APIs juntas usando Node.js</p> 
     <p>
         <a href="#inicio"><p>Volver al Inicio</p></a>
     </p>
