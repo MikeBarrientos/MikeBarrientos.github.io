@@ -18,9 +18,11 @@
     
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
+
     <div class="container">
+        
         <div class="card-panel blue lighten-3">
-          <div class="center">
+          <div class="center" id="inicio">
                 <h1>
                     Tutorial de Node Js
                 </h1>
@@ -34,11 +36,23 @@
         </div>
     </div>
     
+    <!--Indice-->
+        <div class="index-box">
+            <h5>Indice</h5>
+                <ul>
+                    <li><a href="#Sec1"><p>Introduccion</p></a></li>
+                    <li><a href="#Sec2"><p>Ejemplo 1: Usando la API de Spotify con Node.js</p></a></li>
+                    <li><a href="#Sec3"><p>Ejemplo 2: Usando la API de OpenAI con Node.js</p></a></li>
+                    <li><a href="#Sec4"><p>Ejemplo 3: Mavel API</p></a></li>
+                </ul>
+        </div>
+
     <!--INTRODUCCION-->
     <div class="card-panel cyan lighten-4">
-        <h3>
+        <h3 id="Sec1">
             Introducción
         </h3>
+        </section>  
     </div>
     <h4>
         ¿Qué es Node.js?
@@ -100,11 +114,12 @@
         en el cuerpo de la solicitud, lo que proporciona cierta privacidad y seguridad, especialmente al manejar información 
         sensible como contraseñas.
     </p>
-    
-    <p></p>
+    <p>
+        <a href="#inicio"><p>Volver al Inicio</p></a>
+    </p>
     <!--Ejemplo 1: Usando el API de Spotify con nodejs-->
     <div class="card-panel teal lighten-4">
-        <h3>
+        <h3 id="Sec2">
             Ejemplo 1: Usando la API de Spotify con Node.js
         </h3>
     </div>
@@ -617,16 +632,15 @@
         <img  width=40% src="/IMG/25.png"> 
         <br>
         <br>
+    </p>
 
-
-    
-
-    
+    <p>
+        <a href="#inicio"><p>Volver al Inicio</p></a>
     </p>
 
     <!--Ejemplo 2: Usando OpenAI con nodejs-->
     <div class="card-panel teal lighten-4">
-        <h3>
+        <h3 id="Sec3">
             Ejemplo 2: Usando la API de OpenAI con Node.js
         </h3>
     </div>
@@ -857,9 +871,14 @@
     </pre></code>
     <p>Ahora vuelve a inicializar el servidor. Ahora OpenAI nos da información del artista de la canción solicitada:</p> 
     <p><img  width=100% src="/IMG/ai6.png"></p>
+
+    <p>
+        <a href="#inicio"><p>Volver al Inicio</p></a>
+    </p>
+    
     <!--Ejemplo 3: MARVEL-->
     <div class="card-panel teal lighten-4">
-        <h3>
+        <h3 id="Sec4">
             Ejemplo 3: Mavel API
         </h3>
     </div>
@@ -887,7 +906,33 @@
         es necesario preparar un archivo .js con los elementos principales:
     </p>
     <pre><code class="language-html">
-        script de JavaScript
+        //Variables para la API de Marvel
+        const publicKey = '7ffb940ea8959e190f046e1af43ea9b9';
+        const privateKey = 'dd741e9af4409424e64b257d788e15fa5eda9ac4';
+        const timestamp = new Date().getTime();
+        const hash = CryptoJS.MD5(timestamp + privateKey + publicKey).toString();
+
+        const apiUrl = 'https://gateway.marvel.com/v1/public/characters';
+        const fullUrl = `${apiUrl}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&name=${encodeURIComponent(characterName)}`; 
+
+        async function Marvel(fullUrl) {
+            try {
+                const response = await fetch(fullUrl);
+                const data = await response.json();
+        
+            // Check if any characters were found
+            if (data.code === 200 && data.data.total > 0) {
+                const character = data.data.results[0]; // Get the first character found
+                return character;
+            } else {
+                console.log('No characters found with that name.');
+                return null; // Return null if no characters were found
+            }
+            } catch (error) {
+            console.error('Error fetching data:', error);
+              throw error; // Re-throw the error to be handled by the calling code
+            }
+        }
     </code></pre>
     <h5>
         Mostrar la información en la página
@@ -901,16 +946,63 @@
         Hacer requests 
     </h5>
     <p>1. </p> 
-    <p><img  width=20% src="/IMG/.png"></p>
+    <p><img  width=60% src="/IMG/.png"></p>
     <p>2. Inicializa el servidor y verifica que en la terminal aparezca el mensaje: <strong>Servidor escuchando</strong></p>
-    <p>3. Escribe en la barra de búsqueda: <strong>http://localhost:3000/</strong></p> 
+    <p>3. Escribe en la barra de búsqueda: <strong>http://localhost:3000/?cancion=Nombre%20de%20Cancion</strong></p> 
     <p>4. El mensaje de vuelta debe aparecer en la página.</p> 
-    <p><img  width=20% src="/IMG/.png"></p>
+    <p><img  width=60% src="/IMG/ai9.png"></p>
     <h5>
         Usar la API de Marvel junto con OpenAI
     </h5>
-    Similar 
-  </body> 
+    <p>Para incializar el servidor, escribe en la terminal la siguiente línea (asegurate estar en la carpeta de tu archivo):</p>
+    <pre><code class="language-html">
+        node nombredearchivo.js
+    </code></pre>
+    <p>Presiona <strong>Ctrl-C</strong> en la terminal para terminar al servidor antes de modificar el código.</p>
+    <p>1.</p>
+    <p><img  width=20% src="/IMG/.png"></p>
+    <p>2. Debemos añadir una nueva seccion dentro de la zona de las impresiones, la cual nos permita mandarle un mensaje nuevo a la API de chatGPt,
+        este codigo deberia de ir debajo de la ultima respuesta que ponemos en pantalla de ChatGPT
+    </p>
+    <pre><code class="language-html">
+        res.write(responseAI.choices[0].message.content); 
+            
+            
+            const character= await Marvel(fullUrl);
+            if(character !== null){    
+                const HeroDescription = character.description; 
+
+                messageMarvel ="Adivina de que personaje estamos describiendo y dame peliculas donde salga: " + HeroDescription;
+
+                const getAIMarvel = async () => {
+                    const resultado2 = await fetch(endpoint_ai, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
+                        body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": messageMarvel}]})
+                        });
+            
+                        const dataAI = await resultado2.json();
+                        return dataAI;
+                    };
+
+                responseAIMarvel= await getAIMarvel();
+                res.write("\n\n");
+                res.write(responseAIMarvel.choices[0].message.content);
+                }else{
+                    res.write("\n\nSi quieres que chat adivine un heroe de marvel que ingreses en el url y que te diga peliculas donde sale necesitas ingresar: ");
+                    res.write("http://localhost:3000/?cancion=Reina%20de%20Pikas&Heroe=Spider-Man")
+                }
+            res.end();
+    </code></pre>
+    <p>3. Escribe en la barra de búsqueda: <strong>http://localhost:3000/?cancion=Nombre%20de%20Cancion&Heroe=Nombre%20Heroe</strong></p> 
+    <p>4. El mensaje de vuelta debe aparecer en la página.</p> 
+    <p><img  width=60% src="/IMG/ai8.png"></p>
+
+    <p>
+        <a href="#inicio"><p>Volver al Inicio</p></a>
+    </p>
+
+</body> 
 </html>
 
 <!--

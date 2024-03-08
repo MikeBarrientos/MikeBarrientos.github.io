@@ -1,8 +1,8 @@
 const http = require('node:http');
+const CryptoJS = require('crypto-js');
+
 const querystring = require('node:querystring');
 const url = require('node:url');
-let message = "Hello chat";
-let responseAI;
 
 const server = http.createServer(
     async function (sol,res){
@@ -16,7 +16,38 @@ const server = http.createServer(
         const p = url.parse(sol.url); // Varible que toma una URL como entrada y devuelve un objeto con varias propiedades que representan diferentes partes de la URL
         const query  = querystring.parse(p.query); // Variable que analiza la parte de la consulta de la URL
         const nombreCancion= query.cancion; //varible que almacenara el nombre de la cancion ingresado en la URL
+        const characterName = query.Heroe;
 
+        let responseAI;
+
+
+        //Variables para la API de Marvel
+        const publicKey = '7ffb940ea8959e190f046e1af43ea9b9';
+        const privateKey = 'dd741e9af4409424e64b257d788e15fa5eda9ac4';
+        const timestamp = new Date().getTime();
+        const hash = CryptoJS.MD5(timestamp + privateKey + publicKey).toString();
+
+        const apiUrl = 'https://gateway.marvel.com/v1/public/characters';
+        const fullUrl = `${apiUrl}?ts=${timestamp}&apikey=${publicKey}&hash=${hash}&name=${encodeURIComponent(characterName)}`; 
+
+        async function Marvel(fullUrl) {
+            try {
+                const response = await fetch(fullUrl);
+                const data = await response.json();
+        
+            // Check if any characters were found
+            if (data.code === 200 && data.data.total > 0) {
+                const character = data.data.results[0]; // Get the first character found
+                return character;
+            } else {
+                console.log('No characters found with that name.');
+                return null; // Return null if no characters were found
+            }
+            } catch (error) {
+            console.error('Error fetching data:', error);
+              throw error; // Re-throw the error to be handled by the calling code
+            }
+        }
 
         //Esta funcion de getToken, lo que hace es que damos las credenciales a la API para obtener el token de acceso a las api
         const getToken = async () => {
@@ -28,10 +59,7 @@ const server = http.createServer(
     
             const datatoken = await resultado.json();
             return datatoken.access_token;
-        };
-
-        // //Una funcion para obtener el ID de una cancion
-        
+        };        
 
         const getTrack = async (nombreCancion,token)=> {
             const urlTrack=`https://api.spotify.com/v1/search?q=`+nombreCancion+`&type=track`;
@@ -43,6 +71,14 @@ const server = http.createServer(
         };
 
         const token = await getToken();
+
+
+
+        //Funcionpara obtener el personaje de Marvel
+
+
+
+
 
         if(nombreCancion == null){
             res.write("Ingresa el nombre de la cancion en el URL como el siguiente ejemplo:\n ")
@@ -71,7 +107,7 @@ const server = http.createServer(
             const getAI = async () => {
             const resultado2 = await fetch(endpoint_ai, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
+                headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
                 body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": message}]})
                 });
     
@@ -79,10 +115,36 @@ const server = http.createServer(
                 return dataAI;
             };
 
-        responseAI = await getAI();
+            responseAI = await getAI();
 
+            //console.log(responseAI.choices[0].message.content);
+            res.write(responseAI.choices[0].message.content); 
             
-            res.write(responseAI.choices[0].message.content)
+            
+            const character= await Marvel(fullUrl);
+            if(character !== null){    
+                const HeroDescription = character.description; 
+
+                messageMarvel ="Adivina de que personaje estamos describiendo y dame peliculas donde salga: " + HeroDescription;
+
+                const getAIMarvel = async () => {
+                    const resultado2 = await fetch(endpoint_ai, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json','Authorization': 'Bearer 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' },
+                        body: JSON.stringify({ model: 'gpt-3.5-turbo', messages: [{"role": "user", "content": messageMarvel}]})
+                        });
+            
+                        const dataAI = await resultado2.json();
+                        return dataAI;
+                    };
+
+                responseAIMarvel= await getAIMarvel();
+                res.write("\n\n");
+                res.write(responseAIMarvel.choices[0].message.content);
+                }else{
+                    res.write("\n\nSi quieres que chat adivine un heroe de marvel que ingreses en el url y que te diga peliculas donde sale necesitas ingresar: ");
+                    res.write("http://localhost:3000/?cancion=Reina%20de%20Pikas&Heroe=Spider-Man")
+                }
             res.end();
 
         }

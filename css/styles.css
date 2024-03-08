@@ -50,44 +50,21 @@ a{
     text-decoration: underline;
 }
 
-#codigoAI {
-    width: 60%;
-    height: 500px;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    background-color: lightgray;
-    resize: none;
-}
+.index-box {
+    background-color: #b2ebf2; /* Color de fondo */
+    padding: 10px; /* Ajusta el relleno según sea necesario (aplica a todos los lados) */
+    border-radius: 5px; /* Añade esquinas redondeadas */
+    margin: 20px 20px 20px 20px; /* Añade márgenes */
+    max-width: fit-content; /* Establece el ancho máximo de la caja según tus necesidades */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+.index-box h5 {
+    margin-bottom: 10px; /* Añade un margen inferior para separar del elemento ul */
 
-.code-container {
-    margin-left: 0; /* Set left margin to 0 */
-    padding-left: 20px; /* Add left padding to create space */
-    display: inline-block;
-}
+  }
 
-pre {
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #2c2c2c;
-    font-family: 'Courier New', Courier, monospace; /* Use a monospace font */
-}
-
-code {
-    font-family: inherit; /* Inherit font-family from parent (pre) */
-    color: #cdcdcd; /* Set code text color */
-    
-}
-
-ol {
-    list-style-type: decimal; /* Use decimal numbering */
-    list-style-position: outside; /* Place numbering outside the list items */
-    margin: 20px; /* Add space above and below the list */
-    padding-left: 60px; /* Add space to the left of the list */
-}
+.index-box ul {
+    list-style-type: circle; /* Cambia el marcador de lista a puntos (puedes usar 'circle', 'square', etc.) */
+    padding-left: 20px; /* Ajusta la sangría izquierda según sea necesario */
+  }
+  
